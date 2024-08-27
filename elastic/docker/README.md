@@ -1,5 +1,5 @@
 
-# Elastic Stack Deployment
+# Elastic Stack
 
 1. [Prerequisites](#prerequisites)
 2. [Installation](#installation)
