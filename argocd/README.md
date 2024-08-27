@@ -6,7 +6,7 @@
 [4. User Management](#4-user-management)
 [5. Troubleshooting](#5-troubleshooting)
 [6. Contributing](#6-contributing)
-ß
+
 ---
 
 ## 1. Prerequisites
