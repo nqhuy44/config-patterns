@@ -39,12 +39,10 @@ data:
     p, role:dev, applications, get, *, allow
     p, role:dev, applications, list, *, allow
     p, role:dev, applications, sync, *, allow
+    
     p, role:dev, projects, get, *, allow
     p, role:dev, projects, list, *, allow
 
-
-
-    
   policy.default: role:readonly
 
   scopes: '[cognito:groups, email]'

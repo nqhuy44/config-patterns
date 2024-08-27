@@ -1,16 +1,16 @@
 
-# Elastic Stack
+# Elastic Docker
 
-1. [Prerequisites](#1-prerequisites)
-2. [Installation](#2-installation)
-3. [Configuration](#3-configuration)
-4. [SSL](#4-ssl)
-5. [Troubleshooting](#5-troubleshooting)
-6. [Contributing](#6-contributing)
+  - [1. Prerequisites](#1-prerequisites)
+  - [2. Installation](#2-installation)
+  - [3. Configuration](#3-configuration)
+  - [4. SSL](#4-ssl)
+  - [5. Troubleshooting](#5-troubleshooting)
+  - [6. Contributing](#6-contributing)
 
 ---
 
-## 1. Prerequisitesßßß
+## 1. Prerequisites
 
 Before begin the deployment of the Elastic Stack, ensure you have the following prerequisites:
 

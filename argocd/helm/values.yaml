@@ -39,7 +39,7 @@ configs:
     #     - openid
     #     - profile
     #     - email
-    
+
   admin.enabled: "true"
   accounts.dev: apiKey, login
   accounts.dev.enabled: "true"
@@ -86,4 +86,10 @@ configs:
     policy.matchMode: 'glob'
 
 notifications:
+  #https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/overview/
+  notifiers: {}
+  #https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/subscriptions/
+  subscriptions: []
+  #https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/templates/
+  templates: {}
 

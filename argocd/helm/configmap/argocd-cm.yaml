@@ -8,6 +8,5 @@ metadata:
     app.kubernetes.io/part-of: argocd
 data:
   admin.enabled: "true"
-  
   accounts.dev: apiKey, login
   accounts.dev.enabled: "true"

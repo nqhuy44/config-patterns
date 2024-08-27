@@ -1,11 +1,13 @@
 # ArgoCD
 
-[1. Prerequisites](#1-prerequisites)
-[2. Installation](#2-installation)
-[3. RBAC](#3-rbac)
-[4. User Management](#4-user-management)
-[5. Troubleshooting](#5-troubleshooting)
-[6. Contributing](#6-contributing)
+- [ArgoCD](#argocd)
+  - [1. Prerequisites](#1-prerequisites)
+  - [2. Installation](#2-installation)
+  - [3. RBAC](#3-rbac)
+  - [4. User Management](#4-user-management)
+  - [5. Notification](#5-notification)
+  - [6. Troubleshooting](#6-troubleshooting)
+  - [7. Contributing](#7-contributing)
 
 ---
 
@@ -34,5 +36,6 @@ Reference: https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
 Reference:
 https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/
 
-## 5. Troubleshooting
-## 6. Contributing
+## 5. Notification
+## 6. Troubleshooting
+## 7. Contributing
