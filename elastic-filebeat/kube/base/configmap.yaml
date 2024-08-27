@@ -90,6 +90,6 @@ metadata:
   labels:
     k8s-app: filebeat
 data:
-  elasticsearch_hosts: '["172.25.74.3:9200"]'
-  logstash_host: '["172.25.74.3:5044"]'
-  kibana_host: https://df-kibana-lab.bss.works
+  elasticsearch_hosts: ''
+  logstash_host: ''
+  kibana_host: ''
