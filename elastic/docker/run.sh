@@ -29,6 +29,3 @@ ssh -t $ELASTIC_HOST << 'EOF'
 
     echo "All scripts executed successfully"
 EOF
-
-# Execute the post-run script on the local machine
-# ./post-run.sh
