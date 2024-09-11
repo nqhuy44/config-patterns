@@ -45,7 +45,7 @@ configs:
   accounts.dev.enabled: "true"
 
   rbac:
-    create: false
+    create: true
     policy.csv: |
       g, admin, role:admin
       g, dev, role:dev

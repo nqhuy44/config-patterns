@@ -2,16 +2,15 @@ repositories:
   - name: argocd
     url: https://argoproj.github.io/argo-helm
 
-
 releases:
   - name: argocd
     namespace: argocd
     createNamespace: true
-    chart: argo-cd
+    chart: argo-cd/argo-cd
     values:
       - ./values.yaml
     labels:
       app: argocd
-      environment: 
+      environment: test
     # preapply:
     #   - kubectl apply -f configmap/rbac.yaml
