@@ -8,14 +8,17 @@ image:
   repository: debian
   tag: stable-slim
 
-containerPort: 8080
+containerPorts:
+  - name: primary
+    port: 8080
+  - name: secondary
+    port: 8081
 
-# -- Additional labels for the applkication
+# -- Additional labels for the application
 podLables: {}
 
 # -- Custom command line arguments to pass to the Dex server
 customCommands:
-  - echo "Hello!"
   - sleep 3600
 
 # Configmap for the application
@@ -27,21 +30,7 @@ configmap:
     ENV_ENVIRONMENT: "dev"
 
 # External configmap for the application
-externalConfigmap:
-  - name: cm1
-    mounthPath: /etc/config/1
-    data:
-      ENV_APP: "abc"
-      ENV_VERSION: "1.0.0"
-      ENV_REGION: "us-west-1"
-      ENV_ENVIRONMENT: "dev"
-  - name: cm2
-    mounthPath: /etc/config/2
-    data:
-      ENV_APP: "xyz"
-      ENV_VERSION: "1.0.0"
-      ENV_REGION: "us-west-2"
-      ENV_ENVIRONMENT: "dev"
+externalConfigmap: []
 
 # Secret for the application
 secret:
@@ -52,19 +41,37 @@ secret:
     SECRET_KEY: "secret-key"
 
 # External secret for the application
-externalSecret:
-  - name: sec1
-    type: Opaque
-    mounthPath: /etc/secret/1
-    data:
-      ENV_SECRET_NAME: "secret1"
-  - name: sec2
-    type: Opaque
-    mounthPath: /etc/secret/2
-    data:
-      ENV_SECRET_NAME: "secret-2"
+externalSecret: []
 
 # Service account for the application
 serviceAccount:
   # -- Enable the creation of the service account
   create: false
+
+# Service for the application
+service:
+  # -- Type of the service
+  type: ClusterIP
+  # -- Port for the service
+  port: 80
+  # -- Target port for the service
+  targetPort: 8080
+  ## -- Node port for the service (only for NodePort type)
+  # nodePort: 30000
+
+# Ingress for the application
+ingress:
+  # -- Enable the creation of the ingress
+  create: false
+
+# Job to run before the deployment
+prerequisites:
+  enable: true
+  name: "pre-install"
+  image:
+    registry: docker.io
+    repository: debian
+    tag: stable-slim
+  imagePullPolicy: IfNotPresent
+  commands:
+    - echo "Running the pre-install job"
