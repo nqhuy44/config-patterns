@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    managed-by: {{ .Release.Service }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      managed-by: {{ .Release.Service }}
+      chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  template:
+    metadata:
+      namespace: {{ .Release.Namespace }}
+      labels:
+        app: {{ .Release.Name }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        managed-by: {{ .Release.Service }}
+        {{- with .Values.podLables }}
+        {{- toYaml . | nindent 6 }}
+        {{- end }}
+    spec:
+      {{- if .Values.serviceAccount.create }}
+      serviceAccountName: {{ template "saName" $ }}
+      {{- end }}
+      restartPolicy: {{ .Values.restartPolicy | default "Always" }}
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds | default 30 }}
+      containers:
+        # Main application contaienr
+        - name: {{ .Chart.Name }}
+          image: {{ template "imageMain" $ }}
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          {{- if .Values.customCommands }}
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              {{- range .Values.customCommands }}
+              {{ . }};
+              {{- end }}
+          {{- end }}
+          ports:
+            - name: main
+              containerPort: {{ .Values.containerPort }}
+          env:
+            {{- range $key, $value := .Values.configmap.data }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+            {{- end }}
+          envFrom:
+            # Default ENV variables from the configmap
+            - configMapRef:
+                name: {{ template "cmName" $ }}
+            # Deafault ENV variables from the secret
+            - secretRef:
+                name: {{ template "secretName" $ }}
+
+          #Volume mounts
+          volumeMounts:
+            # Data from the external configmap
+            {{- if .Values.externalConfigmap }}
+            {{- range $cm := .Values.externalConfigmap }}
+            - name: {{ $cm.name }}
+              mountPath: {{ $cm.mounthPath }}
+            {{- end }}
+            {{- end }}
+            # Data from the external secret
+            {{- if .Values.externalSecret }}
+            {{- range $sec := .Values.externalSecret }}
+            - name: {{ $sec.name }}
+              mountPath: {{ $sec.mounthPath }}
+            {{- end }}
+            {{- end }}
+        
+      # Volumes
+      volumes:
+        # External configmap
+        {{- if .Values.externalConfigmap }}
+        {{- range $cm := .Values.externalConfigmap }}
+        - name: {{ $cm.name }}
+          configMap:
+            name: {{ $cm.name }}
+        {{- end }}
+        {{- end }}
+        # External secret
+        {{- if .Values.externalSecret }}
+        {{- range $sec := .Values.externalSecret }}
+        - name: {{ $sec.name }}
+          secret:
+            secretName: {{ $sec.name }}
+        {{- end }}
+        {{- end }}
+
+

@@ -1,0 +1,42 @@
+apiVersion: v2
+name: example-application
+description: Example Helm chart for Kubernetes
+
+# A chart can be either an 'application' or a 'library' chart.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes to the chart.
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be incremented each time you make changes to the application.
+appVersion: "0.1.0"
+
+# The icon field is optional. It is used to provide a URL to an icon image.
+# icon: https://example.com/icon.png
+
+# The home field is optional. It is used to provide a URL to the home page of the application.
+home: https://example.com
+
+# The sources field is optional. It is used to provide URLs to the source code of the application.
+# sources:
+  # - https://github.com/example/my-application
+
+# The maintainers field is optional. It is used to provide information about the maintainers of the chart.
+maintainers:
+  - name: Huy Nguyen
+    email: nqhuy44@gmail.com
+
+# The keywords field is optional. It is used to provide a list of keywords that describe the chart.
+keywords:
+  - example
+  - helm
+  - chart
+
+# The dependencies field is optional. It is used to specify the dependencies of the chart.
+# dependencies:
+  # - name: redis
+  #   version: "14.8.12"
+  #   repository: "https://charts.bitnami.com/bitnami"
+  # - name: postgresql
+  #   version: "10.3.17"
+  #   repository: "https://charts.bitnami.com/bitnami"

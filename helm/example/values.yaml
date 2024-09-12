@@ -1,0 +1,70 @@
+
+# Name of the application
+name: example
+
+# Default image used for the application 
+image:
+  registry: docker.io
+  repository: debian
+  tag: stable-slim
+
+containerPort: 8080
+
+# -- Additional labels for the applkication
+podLables: {}
+
+# -- Custom command line arguments to pass to the Dex server
+customCommands:
+  - echo "Hello!"
+  - sleep 3600
+
+# Configmap for the application
+configmap:
+  data:
+    ENV_APP: "abc"
+    ENV_VERSION: "1.0.0"
+    ENV_REGION: "us-west-2"
+    ENV_ENVIRONMENT: "dev"
+
+# External configmap for the application
+externalConfigmap:
+  - name: cm1
+    mounthPath: /etc/config/1
+    data:
+      ENV_APP: "abc"
+      ENV_VERSION: "1.0.0"
+      ENV_REGION: "us-west-1"
+      ENV_ENVIRONMENT: "dev"
+  - name: cm2
+    mounthPath: /etc/config/2
+    data:
+      ENV_APP: "xyz"
+      ENV_VERSION: "1.0.0"
+      ENV_REGION: "us-west-2"
+      ENV_ENVIRONMENT: "dev"
+
+# Secret for the application
+secret:
+  type: Opaque
+  mounthPath: /etc/secret/1
+  data:
+    SECRET_NAME: "secret-default"
+    SECRET_KEY: "secret-key"
+
+# External secret for the application
+externalSecret:
+  - name: sec1
+    type: Opaque
+    mounthPath: /etc/secret/1
+    data:
+      ENV_SECRET_NAME: "secret1"
+  - name: sec2
+    type: Opaque
+    mounthPath: /etc/secret/2
+    data:
+      ENV_SECRET_NAME: "secret-2"
+
+# Service account for the application
+serviceAccount:
+  # -- Enable the creation of the service account
+  create: false
