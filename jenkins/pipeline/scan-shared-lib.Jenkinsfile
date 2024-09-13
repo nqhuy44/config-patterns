@@ -21,10 +21,10 @@
                     script {
                         // Checkout Service Repo
                         dir('jenkins-shared-lib-test') {
-                            // checkout([$class: 'GitSCM',
-                            //         branches: [[name: "${env.CHANGE_BRANCH}"]],
-                            //         userRemoteConfigs: [[credentialsId: 'CI_GITHUB_CREDENTIALS',
-                            //                             url: 'https://github.com/nqhuy44/jenkins-shared-lib-test.git']]])
+                            checkout([$class: 'GitSCM',
+                                    branches: [[name: "${env.CHANGE_BRANCH}"]],
+                                    userRemoteConfigs: [[credentialsId: 'CI_GITHUB_CREDENTIALS',
+                                                        url: 'https://github.com/nqhuy44/jenkins-shared-lib-test.git']]])
                             sh "echo ${env.CHANGE_BRANCH}"
                         }
                     }
