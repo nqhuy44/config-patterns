@@ -25,7 +25,7 @@
                             //         branches: [[name: "${env.CHANGE_BRANCH}"]],
                             //         userRemoteConfigs: [[credentialsId: 'CI_GITHUB_CREDENTIALS',
                             //                             url: 'https://github.com/nqhuy44/jenkins-shared-lib-test.git']]])
-                            sh 'echo ${env.CHANGE_BRANCH}'
+                            sh "echo ${env.CHANGE_BRANCH}"
                         }
                     }
                 }
