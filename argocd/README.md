@@ -1,5 +1,3 @@
-# ArgoCD
-
 - [ArgoCD](#argocd)
   - [1. Prerequisites](#1-prerequisites)
   - [2. Installation](#2-installation)
@@ -8,8 +6,11 @@
   - [5. Notification](#5-notification)
   - [6. Troubleshooting](#6-troubleshooting)
   - [7. Contributing](#7-contributing)
+- [Application](#application)
+- [ApplicationSet](#applicationset)
 
 ---
+# ArgoCD
 
 ## 1. Prerequisites
 ## 2. Installation
@@ -39,3 +40,9 @@ https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/
 ## 5. Notification
 ## 6. Troubleshooting
 ## 7. Contributing
+
+---
+# Application
+
+--
+# ApplicationSet

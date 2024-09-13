@@ -30,7 +30,11 @@ configmap:
     ENV_ENVIRONMENT: "dev"
 
 # External configmap for the application
-externalConfigmap: []
+externalConfigmap:
+  # - name: config-1
+  #   mounthPath: /etc/config/1
+  #   data:
+  #     ENV_TEST: "test"
 
 # Secret for the application
 secret:
