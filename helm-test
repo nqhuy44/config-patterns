@@ -1,0 +1,173 @@
+---
+# Source: example-application/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "example-svc"
+  namespace: example
+  labels:
+    app: release-name
+    chart: "example-application-0.1.0"
+    managed-by: Helm
+spec:
+  type: ClusterIP
+  selector:
+    app: release-name
+    chart: "example-application-0.1.0"
+    managed-by: Helm
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+# Source: example-application/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name
+  namespace: default
+  labels:
+    app: release-name
+    managed-by: Helm
+    chart: "example-application-0.1.0"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: release-name
+      managed-by: Helm
+      chart: "example-application-0.1.0"
+  template:
+    metadata:
+      namespace: default
+      labels:
+        app: release-name
+        chart: "example-application-0.1.0"
+        managed-by: Helm
+    spec:
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      containers:
+        # Main application contaienr
+        - name: example-application
+          image: docker.io/debian:stable-slim
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/bash"
+            - "-c"
+            - |
+              sleep 3600;
+          ports:
+            - name: primary
+              containerPort: 8080
+            - name: secondary
+              containerPort: 8081
+          env:
+            - name: ENV_APP
+              value: "abc"
+            - name: ENV_ENVIRONMENT
+              value: "dev"
+            - name: ENV_REGION
+              value: "us-west-2"
+            - name: ENV_VERSION
+              value: "1.0.0"
+          envFrom:
+            # Default ENV variables from the configmap
+            - configMapRef:
+                name: "example-cm"
+            # Deafault ENV variables from the secret
+            - secretRef:
+                name: "example-secret"
+
+          #Volume mounts
+          volumeMounts:
+            # Data from the external configmap
+            - name: config-1
+              mountPath: /etc/config/1
+            # Data from the external secret
+        
+      # Volumes
+      volumes:
+        # External configmap
+        - name: config-1
+          configMap:
+            name: config-1
+        # External secret
+---
+# Source: example-application/templates/secret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: "example-secret"
+  namespace: example
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded
+type: Opaque
+data:
+  SECRET_KEY: "c2VjcmV0LWtleQ=="
+  SECRET_NAME: "c2VjcmV0LWRlZmF1bHQ="
+---
+# Source: example-application/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: example
+  name: "example-cm"
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded
+data:
+  ENV_APP: "abc"
+  ENV_ENVIRONMENT: "dev"
+  ENV_REGION: "us-west-2"
+  ENV_VERSION: "1.0.0"
+---
+# Source: example-application/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: example
+  name: config-1
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "-1"
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded
+data:
+  ENV_TEST: "test"
+---
+# Source: example-application/templates/job-prerequisites.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pre-install-job
+  namespace: example
+  labels:
+    app: release-name
+    managed-by: Helm
+    chart: "example-application-0.1.0"
+    job: pre-install-job
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation
+spec:
+  template:
+    metadata:
+      labels:
+        app: release-name
+        chart: "example-application-0.1.0"
+        managed-by: Helm
+        job: pre-install-job
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: "pre-install"
+          image: "docker.io/debian:stable-slim"
+          imagePullPolicy: IfNotPresent
+          command:
+          - "/bin/bash"
+          - "-c"
+          - |
+            echo "Running the pre-install job";
