@@ -1,18 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: loadbalancercontroller
+  name: example-app
   namespace: argocd
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
+    server: https://kubernetes.default.svc
     namespace: example
   project: default
   sources:
   - repoURL: https://github.com/nqhuy44/config-patterns.git
-    path: application/example/dev
-    targetRevision: HEAD
+    path: application/example/overlays/dev
+    targetRevision: feature/application
   syncPolicy:
     automated:
       prune: true
