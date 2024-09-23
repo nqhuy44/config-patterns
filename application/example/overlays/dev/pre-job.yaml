@@ -11,7 +11,11 @@ spec:
       containers:
       - name: pre-job
         image: debian:latest
-        command: ["echo", "$APP_VERSION"]
+        command:
+          - /bin/bash
+          - -c
+          - |
+            echo $APP_NAME
         envfrom:
         - configMapRef:
             name: example-config

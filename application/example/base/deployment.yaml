@@ -24,6 +24,11 @@ spec:
         envfrom:
         - configMapRef:
             name: example-config
+        #keep the container running
+        command:
+          - /bin/bash
+          - -c
+          - sleep 3600
         resources:
           limits:
             memory: "128Mi"
