@@ -1,0 +1,30 @@
+#example deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-deployment
+  namespace: example
+  labels:
+    app: example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example
+  template:
+    metadata:
+      labels:
+        app: example
+    spec:
+      containers:
+      - name: example
+        image: debian:latest
+        ports:
+        - containerPort: 80
+        envfrom:
+        - configMapRef:
+            name: example-config
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
