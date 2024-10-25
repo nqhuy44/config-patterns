@@ -1,0 +1,15 @@
+repositories:
+  - name: secrets-store-csi-driver
+    url: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+
+releases:
+  - name: secrets-store-csi-driver
+    # namespace: secrets-store-csi-driver
+    createNamespace: true
+    chart: https://kubernetes-sigs.github.io/secrets-store-csi-driver/charts
+    values:
+      - ./values.yaml
+    hooks:
+      - events: ["postsync"]
+        command: "kubectl"
+        args: ["apply", "-f", "https://raw.githubusercontent.com/aws/secrets-store-csi-driver-provider-aws/main/deployment/aws-provider-installer.yaml"]

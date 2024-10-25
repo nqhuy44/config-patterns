@@ -1,3 +1,5 @@
 default.yaml
-jenkins_home/
+jenkins_home
+*_data
 helm-test
+node_modules
