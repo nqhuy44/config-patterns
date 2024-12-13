@@ -1,16 +1,5 @@
-# charts:
-#   - name: example
-#     chart: "./example"
-
 releases:
   - name: example
     namespace: example
     createNamespace: true
     chart: ./example
-    # values:
-    #   - ./values.yaml
-    # labels:
-    #   app: argocd
-    #   environment: test
-    # preapply:
-    #   - kubectl apply -f configmap/rbac.yaml

@@ -32,3 +32,11 @@
 {{- define "svcName" -}}
 "{{ template "fullName" $ }}-svc"
 {{- end -}}
+
+{{- define "deploymentName" -}}
+"{{ template "fullName" $ }}-deployment"
+{{- end -}}
+
+{{- define "jobPreName" -}}
+{{ printf "%s" .Values.prerequisites.name }}-job
+{{- end -}}

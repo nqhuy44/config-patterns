@@ -1,0 +1,40 @@
+{{- if .Values.prerequisites.enable }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ template "jobPreName" $ }}
+  namespace: {{ template "namespace" $ }}
+  labels:
+    app: {{ .Release.Name }}
+    managed-by: {{ .Release.Service }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    job: {{ template "jobPreName" $ }}
+  annotations:
+    "helm.sh/hook": pre-install, pre-upgrade
+    "helm.sh/hook-weight": "0"
+    "helm.sh/hook-delete-policy": before-hook-creation, hook-succeeded
+spec:
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+        managed-by: {{ .Release.Service }}
+        job: {{ template "jobPreName" $ }}
+        {{- if .Values.prerequisites.podLables }}
+        {{- toYaml .Values.prerequisites.podLables | nindent 8 }}
+        {{- end }}
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: {{ .Values.prerequisites.name | quote}}
+          image: "{{ .Values.prerequisites.image.registry}}/{{ .Values.prerequisites.image.repository }}:{{ .Values.prerequisites.image.tag }}"
+          imagePullPolicy: {{ .Values.prerequisites.imagePullPolicy | default "IfNotPresent" }}
+          command:
+          - "/bin/bash"
+          - "-c"
+          - |
+            {{- range .Values.prerequisites.commands }}
+            {{ . }};
+            {{- end }}
+{{- end }}
