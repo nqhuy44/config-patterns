@@ -1,4 +1,5 @@
 default.yaml
+.helm-test
 jenkins_home
 *_data
 helm-test
